@@ -55,13 +55,20 @@ class _HighlightedCurrenciesState extends State<HighlightedCurrencies> {
   @override
   Widget build(BuildContext context) {
     var items = [
-      ListItem("1₺", "${(_currenciesJson["usd"])}\$", key: const Key("1")),
-      ListItem("1₺", "${(_currenciesJson["eur"])}€", key: const Key("2")),
-      ListItem("1₺", "${(_currenciesJson["gbp"])}£", key: const Key("3")),
-      ListItem("1₺", "${(_currenciesJson["btc"])}₿", key: const Key("4")),
-      ListItem("1₺", "${(_currenciesJson["eth"])}Ξ", key: const Key("5")),
-      ListItem("1₺", "${(_currenciesJson["jpy"])}¥", key: const Key("6")),
-      ListItem("1₺", "${(_currenciesJson["aud"])}AU\$", key: const Key("7")),
+      ListItem("usd", "1₺", "${(_currenciesJson["usd"])}\$",
+          key: const Key("1")),
+      ListItem("eur", "1₺", "${(_currenciesJson["eur"])}€",
+          key: const Key("2")),
+      ListItem("gbp", "1₺", "${(_currenciesJson["gbp"])}£",
+          key: const Key("3")),
+      ListItem("btc", "1₺", "${(_currenciesJson["btc"])}₿",
+          key: const Key("4")),
+      ListItem("eth", "1₺", "${(_currenciesJson["eth"])}Ξ",
+          key: const Key("5")),
+      ListItem("jpy", "1₺", "${(_currenciesJson["jpy"])}¥",
+          key: const Key("6")),
+      ListItem("aud", "1₺", "${(_currenciesJson["aud"])}AU\$",
+          key: const Key("7")),
     ];
 
     return Scaffold(

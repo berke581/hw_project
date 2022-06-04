@@ -80,7 +80,9 @@ class _CurrencyConversionState extends State<CurrencyConversion> {
 
   void _onChangedText(String? x) {
     setState(() {
-      enteredNumber = double.parse(x!);
+      try {
+        enteredNumber = double.parse(x!);
+      } catch (err) {}
     });
   }
 
@@ -114,60 +116,71 @@ class _CurrencyConversionState extends State<CurrencyConversion> {
 
     return Scaffold(
         backgroundColor: Colors.transparent,
-        body: Container(
+        body: SingleChildScrollView(
             padding:
-                const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 50.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  "Convert a currency to another!",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
-                ),
-                TextFormField(
-                  onChanged: _onChangedText,
-                  keyboardType: TextInputType.number,
-                  style: const TextStyle(color: Colors.white, fontSize: 20.0),
-                  initialValue: "1",
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      DropdownButton(
-                        dropdownColor: const Color(0xFF7858A6),
-                        iconSize: 30.0,
-                        iconEnabledColor: Colors.white,
-                        value: from,
-                        items: items,
-                        onChanged: _onChangeLeft,
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 100.0),
+            child: Container(
+                padding: const EdgeInsets.only(
+                    left: 20.0, right: 20.0, bottom: 50.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Convert a currency to another!",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
                       ),
-                      const Icon(Icons.swap_horiz, color: Colors.white),
-                      DropdownButton(
-                        dropdownColor: const Color(0xFF7858A6),
-                        iconSize: 30.0,
-                        iconEnabledColor: Colors.white,
-                        value: to,
-                        items: items,
-                        onChanged: _onChangeRight,
-                      )
-                    ]),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 25.0, horizontal: 100.0),
-                  color: const Color(0xFF7858A6),
-                  child: coefficient != null
-                      ? Text(
-                          (coefficient * enteredNumber).toString(),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20.0),
-                        )
-                      : const CircularProgressIndicator(),
-                )
-              ],
-            )));
+                    ),
+                    TextFormField(
+                      onChanged: _onChangedText,
+                      keyboardType: TextInputType.number,
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 20.0),
+                      initialValue: "1",
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DropdownButton(
+                            dropdownColor: const Color(0xFF7858A6),
+                            iconSize: 30.0,
+                            iconEnabledColor: Colors.white,
+                            value: from,
+                            items: items.where((element) {
+                              return element.value != to;
+                            }).toList(),
+                            onChanged: _onChangeLeft,
+                          ),
+                          const Icon(Icons.swap_horiz, color: Colors.white),
+                          DropdownButton(
+                            dropdownColor: const Color(0xFF7858A6),
+                            iconSize: 30.0,
+                            iconEnabledColor: Colors.white,
+                            value: to,
+                            items: items.where((element) {
+                              return element.value != from;
+                            }).toList(),
+                            onChanged: _onChangeRight,
+                          )
+                        ]),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 25.0, horizontal: 50.0),
+                      width: 300.0,
+                      color: const Color(0xFF7858A6),
+                      child: coefficient != null
+                          ? Center(
+                              child: Text(
+                              (coefficient * enteredNumber).toString(),
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20.0),
+                            ))
+                          : const CircularProgressIndicator(),
+                    )
+                  ],
+                ))));
   }
 }
